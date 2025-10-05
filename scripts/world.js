@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { SimplexNoise } from "three/examples/jsm/math/SimplexNoise.js";
 import { RNG } from "./rng";
 const geometry = new THREE.BoxGeometry();
-const material = new THREE.MeshLambertMaterial({color: "#7CFC00"});
+const material = new THREE.MeshMatcapMaterial({color: "#7CFC00"});
 export class World extends THREE.Group{
     constructor (size = {width: 32, height: 16}){
         super();
@@ -48,16 +48,16 @@ export class World extends THREE.Group{
         const rng = new RNG(this.params.seed);
         const simple = new SimplexNoise(rng);
         for(let x=0;x<this.size.width;x++){
-            for(let z = 0;z<this.size.height;z++){
+            for(let z = 0;z<this.size.width;z++){
                 const value = simple.noise(
                     x / this.params.terrain.scale, 
                     z / this.params.terrain.magnitude
                 );
 
-                const scaledNoise = this.params.terrain.offset + this.params.terrain.magnitude * value;
+                const scaledNoise = (this.params.terrain.offset) + this.params.terrain.magnitude * value;
 
                 let height = Math.floor(this.size.height * scaledNoise);
-                height = Math.max(0, Math.min(height, this.size.height - 1));
+                height = Math.max(0, Math.min(height, this.size.height ));
 
                 for(let y = 0; y<=height; y++){
                     this.setBlockId(x, y, z, 1);
