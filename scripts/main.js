@@ -1,7 +1,11 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
+import Stats from 'three/examples/jsm/libs/stats.module.js';
 import { World } from './world';
+import { createUI } from './ui';
 
+const stats = new Stats();
+document.body.append(stats.dom);
 //Renderer Setup
 const renderer = new THREE.WebGLRenderer();
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -45,6 +49,7 @@ function animate(){
     // cube.rotation.x += 0.01;
     // cube.rotation.y += 0.01;
     renderer.render(scene, camera);
+    stats.update();
 }
 
 window.addEventListener("resize", ()=>{
@@ -53,4 +58,5 @@ window.addEventListener("resize", ()=>{
     renderer.setSize(window.innerWidth, window.innerHeight)
 })
 lights();
+createUI(world);
 animate();
